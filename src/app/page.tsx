@@ -1,65 +1,88 @@
-import Image from "next/image";
+import Link from "next/link";
 
-export default function Home() {
+export default function HomePage() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-zinc-50 font-sans dark:bg-black">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-white dark:bg-black sm:items-start">
-        <Image
-          className="dark:invert"
-          src="/next.svg"
-          alt="Next.js logo"
-          width={100}
-          height={20}
-          priority
-        />
-        <div className="flex flex-col items-center gap-6 text-center sm:items-start sm:text-left">
-          <h1 className="max-w-xs text-3xl font-semibold leading-10 tracking-tight text-black dark:text-zinc-50">
-            To get started, edit the page.tsx file.
-          </h1>
-          <p className="max-w-md text-lg leading-8 text-zinc-600 dark:text-zinc-400">
-            Looking for a starting point or more instructions? Head over to{" "}
-            <a
-              href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
+    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
+      <div className="mx-auto max-w-5xl px-4 py-16 space-y-14">
+        <section className="grid gap-10 lg:grid-cols-2 lg:items-center">
+          <div className="space-y-6">
+            <div className="inline-flex items-center rounded-full bg-slate-900 text-white px-4 py-1 text-sm font-medium shadow-sm">
+              Micro-Fiverr
+            </div>
+            <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 leading-tight">
+              A tiny marketplace for fast, quality work.
+            </h1>
+            <p className="text-lg text-slate-600 max-w-xl">
+              Post gigs, hire talent, and get projects shipped quickly. Built with Next.js,
+              Prisma, and NextAuth for a smooth, secure experience.
+            </p>
+            <div className="flex flex-wrap gap-3">
+              <Link
+                href="/gigs"
+                className="rounded-md bg-slate-900 px-5 py-2.5 text-white font-medium hover:bg-slate-800 transition shadow-sm"
+              >
+                Browse Gigs
+              </Link>
+              <Link
+                href="/signup"
+                className="rounded-md border border-slate-300 px-5 py-2.5 text-slate-900 font-medium hover:border-slate-400 hover:bg-slate-50 transition"
+              >
+                Get Started
+              </Link>
+              <Link
+                href="/login"
+                className="rounded-md border border-transparent px-5 py-2.5 text-slate-700 font-medium hover:text-slate-900 transition"
+              >
+                Log In
+              </Link>
+            </div>
+          </div>
+          <div className="relative">
+            <div className="rounded-2xl border border-slate-200 bg-white shadow-lg p-6 space-y-4">
+              <div className="flex items-center justify-between">
+                <div>
+                  <p className="text-sm text-slate-500">Featured Gig</p>
+                  <h3 className="text-xl font-semibold text-slate-900">Design a landing page</h3>
+                </div>
+                <span className="rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-sm font-medium">
+                  $250
+                </span>
+              </div>
+              <p className="text-slate-600">
+                Clean, modern landing page with responsive layouts and fast turnaround. Includes Figma source and basic animations.
+              </p>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-medium">
+                  JD
+                </div>
+                <div>
+                  <p className="font-medium text-slate-900">Jordan Diaz</p>
+                  <p className="text-sm text-slate-600">Top Rated Seller</p>
+                </div>
+              </div>
+              <div className="grid grid-cols-3 gap-2 text-center text-sm text-slate-600">
+                <div className="rounded-lg bg-slate-50 py-2">2 day delivery</div>
+                <div className="rounded-lg bg-slate-50 py-2">3 revisions</div>
+                <div className="rounded-lg bg-slate-50 py-2">Figma + code</div>
+              </div>
+            </div>
+          </div>
+        </section>
+
+        <section className="grid gap-6 sm:grid-cols-3">
+          {["Post gigs", "Hire talent", "Move fast"].map((item) => (
+            <div
+              key={item}
+              className="rounded-xl border border-slate-200 bg-white shadow-sm p-5 space-y-2"
             >
-              Templates
-            </a>{" "}
-            or the{" "}
-            <a
-              href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-              className="font-medium text-zinc-950 dark:text-zinc-50"
-            >
-              Learning
-            </a>{" "}
-            center.
-          </p>
-        </div>
-        <div className="flex flex-col gap-4 text-base font-medium sm:flex-row">
-          <a
-            className="flex h-12 w-full items-center justify-center gap-2 rounded-full bg-foreground px-5 text-background transition-colors hover:bg-[#383838] dark:hover:bg-[#ccc] md:w-[158px]"
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <Image
-              className="dark:invert"
-              src="/vercel.svg"
-              alt="Vercel logomark"
-              width={16}
-              height={16}
-            />
-            Deploy Now
-          </a>
-          <a
-            className="flex h-12 w-full items-center justify-center rounded-full border border-solid border-black/[.08] px-5 transition-colors hover:border-transparent hover:bg-black/[.04] dark:border-white/[.145] dark:hover:bg-[#1a1a1a] md:w-[158px]"
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template-tw&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            Documentation
-          </a>
-        </div>
-      </main>
-    </div>
+              <h3 className="text-lg font-semibold text-slate-900">{item}</h3>
+              <p className="text-sm text-slate-600">
+                Micro-sized workflow for shipping projects without the bloat of big marketplaces.
+              </p>
+            </div>
+          ))}
+        </section>
+      </div>
+    </main>
   );
 }

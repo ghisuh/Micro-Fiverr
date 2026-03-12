@@ -1,36 +1,69 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Micro-Fiverr
 
-## Getting Started
+A full-stack Fiverr-style marketplace built with Next.js App Router, TypeScript, Tailwind, NextAuth (credentials), Prisma, and PostgreSQL.
 
-First, run the development server:
+## Features
+- Auth: credentials login/signup with bcrypt + NextAuth.
+- Gigs: create/list gigs with tags, gallery, FAQs, packages, slugged URLs, search/filters.
+- Orders: create orders, mock payment, status flow (pending → active → delivered → completed / cancelled), buyer/seller role filtering.
+- Messaging: order thread with optional attachment URLs.
+- Reviews: buyers can rate (1–5) and review completed orders; gig pages show average rating and review list.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## Quick start
+1. Install deps
+   ```bash
+   npm install
+   ```
+2. Env
+   - Copy `.env.example` to `.env` and set:
+     - `DATABASE_URL` (Postgres; Railway works)
+     - `NEXTAUTH_SECRET`
+     - `NEXTAUTH_URL` (e.g., http://localhost:3000)
+3. Migrate DB
+   ```bash
+   npx prisma migrate dev --name init
+   npx prisma migrate dev --name gig-packages
+   npx prisma migrate dev --name order-paid-at
+   npx prisma migrate dev --name review-and-attachments
+   ```
+   Or simply: `npx prisma migrate dev`
+4. Run dev server
+   ```bash
+   npm run dev
+   ```
+5. (Optional) Seed demo data
+   ```bash
+   npx tsx prisma/seed.ts
+   ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## Usage tips
+- Create an account via /signup, then log in.
+- Post gigs at /gigs (must be logged in). Cards link to gig detail.
+- Checkout from a gig package → creates an order. Pay from order page to unlock status actions.
+- Use order page to send messages, mark delivered, accept delivery, cancel, and leave a review.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## Tech stack
+- Next.js (App Router), TypeScript, Tailwind CSS
+- NextAuth credentials provider
+- Prisma ORM with PostgreSQL
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Repo structure (key)
+- `src/app/api/auth/[...nextauth]/route.ts` – auth config
+- `src/app/api/signup/route.ts` – signup API
+- `src/app/api/gigs/*` – gig list/create/detail
+- `src/app/api/orders/*` – orders, status, messages, pay, reviews
+- `src/app/signup/page.tsx`, `src/app/login/page.tsx`, `src/app/gigs/page.tsx`, `src/app/gigs/[slug]/page.tsx`, `src/app/orders/*`
 
-## Learn More
+## Notes
+- Payments are mocked (`/api/orders/pay`). Swap with Stripe/PayPal when ready.
+- File uploads are URL-based; plug in S3/UploadThing for real files.
+- Revalidation disabled on gig detail for immediacy; adjust for caching if needed.
 
-To learn more about Next.js, take a look at the following resources:
+## Screenshots (capture locally)
+- Home, Gigs list, Gig detail, Checkout, Order page with messages/review.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+## Next improvements (optional)
+- Real file uploads for messages/deliveries
+- Stripe payment intent and webhooks
+- Pagination on gigs/orders, skeleton loaders
+- CI lint/test workflow
