@@ -211,13 +211,21 @@ export async function POST(req: Request) {
         userId,
         packages: packages.length
           ? {
-              create: packages.map((p) => ({
-                name: p.name,
-                description: p.description,
-                price: Math.round(p.price),
-                deliveryDays: Math.round(p.deliveryDays),
-                revisions: p.revisions != null ? Math.round(p.revisions) : null,
-              })),
+              create: packages.map(
+                (p: {
+                  name: string;
+                  description: string;
+                  price: number;
+                  deliveryDays: number;
+                  revisions: number | null;
+                }) => ({
+                  name: p.name,
+                  description: p.description,
+                  price: Math.round(p.price),
+                  deliveryDays: Math.round(p.deliveryDays),
+                  revisions: p.revisions != null ? Math.round(p.revisions) : null,
+                })
+              ),
             }
           : undefined,
       },
