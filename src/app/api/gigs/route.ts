@@ -61,9 +61,10 @@ export async function GET(req: Request) {
       if (maxPrice !== null && Number.isFinite(maxPrice))
         where.price.lte = Math.max(0, Math.floor(maxPrice));
     }
-    if (rawDelivery && Number.isFinite(deliveryDays)) {
+    if (Number.isFinite(deliveryDays)) {
+      const deliveryDaysValue = Math.max(1, Math.floor(deliveryDays as number));
       where.packages = {
-        some: { deliveryDays: { lte: Math.max(1, Math.floor(deliveryDays)) } },
+        some: { deliveryDays: { lte: deliveryDaysValue } },
       };
     }
 
