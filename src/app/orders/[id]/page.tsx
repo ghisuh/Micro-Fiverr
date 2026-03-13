@@ -37,9 +37,9 @@ export default async function OrderDetail({
   }
 
   const existingReview =
-    session?.user?.id
+    userId
       ? await prisma.review.findFirst({
-          where: { orderId: order.id, userId: session.user.id },
+          where: { orderId: order.id, userId },
           select: { rating: true, comment: true },
         })
       : null;
