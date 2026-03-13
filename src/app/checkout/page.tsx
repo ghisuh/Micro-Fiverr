@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { Suspense, useEffect, useMemo, useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import Link from "next/link";
 import { useSession } from "next-auth/react";
@@ -23,7 +23,7 @@ interface Gig {
   packages: Package[];
 }
 
-export default function CheckoutPage() {
+function CheckoutContent() {
   const router = useRouter();
   const search = useSearchParams();
   const slug = search.get("gig") || "";
@@ -178,5 +178,19 @@ export default function CheckoutPage() {
         )}
       </div>
     </div>
+  );
+}
+
+export default function CheckoutPage() {
+  return (
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-slate-50 px-4 py-10 flex items-center justify-center">
+          <p className="text-slate-700">Loading checkout...</p>
+        </div>
+      }
+    >
+      <CheckoutContent />
+    </Suspense>
   );
 }
