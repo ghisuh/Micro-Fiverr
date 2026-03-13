@@ -24,12 +24,6 @@ export default function HomePage() {
                 Browse Gigs
               </Link>
               <Link
-                href="/gigs/implement-a-nextjs-api"
-                className="rounded-md bg-emerald-600 px-5 py-2.5 text-white font-medium hover:bg-emerald-500 transition shadow-sm"
-              >
-                See sample gig
-              </Link>
-              <Link
                 href="/signup"
                 className="rounded-md border border-slate-300 px-5 py-2.5 text-slate-900 font-medium hover:border-slate-400 hover:bg-slate-50 transition"
               >
