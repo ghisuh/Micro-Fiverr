@@ -9,31 +9,33 @@ A full-stack Fiverr-style marketplace built with Next.js App Router, TypeScript,
 - Messaging: order thread with optional attachment URLs.
 - Reviews: buyers can rate (1–5) and review completed orders; gig pages show average rating and review list.
 
+## Live Demo
+- App: https://micro-fiverr-el49.vercel.app
+- Demo accounts:  
+  - Seller: `demo-seller@microfiverr.com` / `password123`  
+  - Buyer: `demo-buyer@microfiverr.com` / `password123`
+
 ## Quick start
 1. Install deps
    ```bash
    npm install
    ```
 2. Env
-   - Copy `.env.example` to `.env` and set:
+   - Create `.env.local` and set:
      - `DATABASE_URL` (Postgres; Railway works)
      - `NEXTAUTH_SECRET`
      - `NEXTAUTH_URL` (e.g., http://localhost:3000)
 3. Migrate DB
    ```bash
-   npx prisma migrate dev --name init
-   npx prisma migrate dev --name gig-packages
-   npx prisma migrate dev --name order-paid-at
-   npx prisma migrate dev --name review-and-attachments
+   npx prisma migrate dev
    ```
-   Or simply: `npx prisma migrate dev`
-4. Run dev server
+4. Seed demo data
+   ```bash
+   npm run seed
+   ```
+5. Run dev server
    ```bash
    npm run dev
-   ```
-5. (Optional) Seed demo data
-   ```bash
-   npx tsx prisma/seed.ts
    ```
 
 ## Usage tips

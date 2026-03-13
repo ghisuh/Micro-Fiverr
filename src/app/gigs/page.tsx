@@ -45,6 +45,7 @@ export default function GigsPage() {
   const [total, setTotal] = useState(0);
   const [page, setPage] = useState(1);
   const pageSize = 12;
+  const [initialLoading, setInitialLoading] = useState(true);
 
   const [search, setSearch] = useState("");
   const [tagFilter, setTagFilter] = useState("");
@@ -78,6 +79,7 @@ export default function GigsPage() {
     setGigs(Array.isArray(data?.items) ? data.items : []);
     setTotal(data?.total || 0);
     setPage(data?.page || targetPage);
+    setInitialLoading(false);
   };
 
   useEffect(() => {
@@ -415,7 +417,21 @@ export default function GigsPage() {
         </div>
 
         <div className="space-y-3">
-          {gigs.length === 0 ? (
+          {initialLoading ? (
+            Array.from({ length: 3 }).map((_, i) => (
+              <div
+                key={i}
+                className="animate-pulse rounded-lg border border-slate-200 bg-white p-5 shadow-sm"
+              >
+                <div className="h-5 w-48 bg-slate-200 rounded mb-2" />
+                <div className="h-4 w-80 bg-slate-200 rounded mb-1" />
+                <div className="flex gap-2 mt-2">
+                  <span className="h-6 w-16 bg-slate-200 rounded-full" />
+                  <span className="h-6 w-16 bg-slate-200 rounded-full" />
+                </div>
+              </div>
+            ))
+          ) : gigs.length === 0 ? (
             <div className="rounded-lg border border-dashed border-slate-300 bg-white p-6 text-slate-600">
               No gigs yet. Be the first to post!
             </div>

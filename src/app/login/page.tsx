@@ -11,6 +11,7 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const [error, setError] = useState<string | null>(null);
   const [loading, setLoading] = useState(false);
+  const [demoLoading, setDemoLoading] = useState(false);
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -36,6 +37,29 @@ export default function LoginPage() {
       console.error(err);
       setError("Something went wrong. Please try again.");
       setLoading(false);
+    }
+  };
+
+  const handleDemo = async () => {
+    setError(null);
+    setDemoLoading(true);
+    try {
+      const res = await signIn("credentials", {
+        email: "demo-buyer@microfiverr.com",
+        password: "password123",
+        redirect: false,
+      });
+      if (res?.error) {
+        setError("Demo login failed. Please try regular login.");
+        setDemoLoading(false);
+        return;
+      }
+      router.push("/");
+      router.refresh();
+    } catch (err) {
+      console.error(err);
+      setError("Something went wrong. Please try again.");
+      setDemoLoading(false);
     }
   };
 
@@ -92,6 +116,14 @@ export default function LoginPage() {
             className="w-full rounded-md bg-slate-900 px-4 py-2 text-white font-medium hover:bg-slate-800 transition focus:outline-none focus:ring-2 focus:ring-slate-300 disabled:opacity-60"
           >
             {loading ? "Signing in..." : "Sign in"}
+          </button>
+          <button
+            type="button"
+            onClick={handleDemo}
+            disabled={loading || demoLoading}
+            className="w-full rounded-md border border-slate-300 px-4 py-2 text-slate-900 font-medium hover:border-slate-400 hover:bg-slate-50 transition disabled:opacity-60"
+          >
+            {demoLoading ? "Signing in..." : "Use demo account"}
           </button>
         </form>
 

@@ -1,86 +1,89 @@
-import { prisma } from "../src/lib/prisma";
+import { PrismaClient } from "@prisma/client";
 import bcrypt from "bcryptjs";
+
+const prisma = new PrismaClient();
 
 async function main() {
   const password = await bcrypt.hash("password123", 12);
 
-  // Users
-  const alice = await prisma.user.upsert({
-    where: { email: "alice@example.com" },
+  const seller = await prisma.user.upsert({
+    where: { email: "demo-seller@microfiverr.com" },
     update: {},
-    create: { email: "alice@example.com", name: "Alice Buyer", password },
-  });
-
-  const bob = await prisma.user.upsert({
-    where: { email: "bob@example.com" },
-    update: {},
-    create: { email: "bob@example.com", name: "Bob Seller", password },
-  });
-
-  // Gigs
-  const gig1 = await prisma.gig.create({
-    data: {
-      title: "Design a modern landing page",
-      description: "Crisp, responsive landing page with Figma + handoff.",
-      slug: "design-modern-landing-page",
-      price: 120,
-      tags: ["design", "landing page"],
-      gallery: [],
-      userId: bob.id,
-      packages: {
-        create: [
-          { name: "Basic", description: "One section", price: 80, deliveryDays: 3, revisions: 1 },
-          { name: "Standard", description: "Full page", price: 120, deliveryDays: 5, revisions: 2 },
-          { name: "Premium", description: "Multi-page", price: 250, deliveryDays: 7, revisions: 3 },
-        ],
-      },
+    create: {
+      email: "demo-seller@microfiverr.com",
+      name: "Bob Seller",
+      password,
     },
   });
 
-  const gig2 = await prisma.gig.create({
-    data: {
+  const buyer = await prisma.user.upsert({
+    where: { email: "demo-buyer@microfiverr.com" },
+    update: {},
+    create: {
+      email: "demo-buyer@microfiverr.com",
+      name: "Jane Doe",
+      password,
+    },
+  });
+
+  const gig = await prisma.gig.upsert({
+    where: { slug: "implement-a-nextjs-api" },
+    update: {},
+    create: {
       title: "Implement a Next.js API",
       description: "Secure REST endpoints with Prisma + PostgreSQL.",
-      slug: "implement-nextjs-api",
-      price: 180,
+      slug: "implement-a-nextjs-api",
+      price: 120,
       tags: ["backend", "next.js"],
       gallery: [],
-      userId: bob.id,
+      userId: seller.id,
       packages: {
         create: [
-          { name: "Basic", description: "One endpoint", price: 120, deliveryDays: 3, revisions: 1 },
-          { name: "Standard", description: "Three endpoints", price: 180, deliveryDays: 5, revisions: 1 },
-          { name: "Premium", description: "Full CRUD", price: 320, deliveryDays: 7, revisions: 2 },
+          {
+            name: "Basic",
+            description: "One endpoint",
+            price: 120,
+            deliveryDays: 3,
+            revisions: 1,
+          },
+          {
+            name: "Standard",
+            description: "Three endpoints",
+            price: 180,
+            deliveryDays: 5,
+            revisions: 1,
+          },
+          {
+            name: "Premium",
+            description: "Full CRUD",
+            price: 320,
+            deliveryDays: 7,
+            revisions: 2,
+          },
         ],
       },
     },
+    include: { packages: true },
   });
 
-  // Orders with reviews
-  const order = await prisma.order.create({
-    data: {
+  await prisma.order.upsert({
+    where: { id: "seed-order-1" },
+    update: {},
+    create: {
+      id: "seed-order-1",
       status: "COMPLETED",
-      price: 120,
+      price: gig.packages[0]?.price ?? 120,
       paidAt: new Date(),
-      gigId: gig1.id,
-      packageId: (await prisma.gigPackage.findFirst({ where: { gigId: gig1.id, name: "Standard" } }))?.id,
-      buyerId: alice.id,
-      sellerId: bob.id,
-      reviews: {
-        create: {
-          rating: 5,
-          comment: "Fantastic design and fast delivery!",
-          userId: alice.id,
-          gigId: gig1.id,
-        },
-      },
-      messages: {
-        create: [{ text: "Thanks!", senderId: bob.id }],
-      },
+      gigId: gig.id,
+      packageId: gig.packages[0]?.id,
+      buyerId: buyer.id,
+      sellerId: seller.id,
     },
   });
 
-  console.log({ alice, bob, gig1: gig1.slug, gig2: gig2.slug, order: order.id });
+  console.log("Seed data ready:");
+  console.log("- Demo seller: demo-seller@microfiverr.com / password123");
+  console.log("- Demo buyer:  demo-buyer@microfiverr.com / password123");
 }
 
 main()

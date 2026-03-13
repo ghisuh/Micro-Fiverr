@@ -201,7 +201,16 @@ export default function OrderClient({
           {loading && <span className="text-xs text-slate-500">Refreshing...</span>}
         </div>
         <div className="max-h-80 overflow-y-auto space-y-3">
-          {messages.length === 0 ? (
+          {loading && messages.length === 0 ? (
+            <div className="space-y-2">
+              {Array.from({ length: 3 }).map((_, i) => (
+                <div key={i} className="animate-pulse space-y-1">
+                  <div className="h-3 w-32 bg-slate-200 rounded" />
+                  <div className="h-4 w-64 bg-slate-200 rounded" />
+                </div>
+              ))}
+            </div>
+          ) : messages.length === 0 ? (
             <p className="text-sm text-slate-600">No messages yet.</p>
           ) : (
             messages.map((m) => (
