@@ -110,16 +110,17 @@ export default function OrdersPage() {
                     {order.package ? (
                       <div className="text-sm text-slate-700">Package: {order.package.name}</div>
                     ) : null}
-                    {session?.user?.id ? (
+                    {session?.user ? (
                       <div className="text-xs text-slate-500">
                         Role:{" "}
-                        {order.buyerId === session.user.id && order.sellerId === session.user.id
-                          ? "Buyer & Seller"
-                          : order.buyerId === session.user.id
-                          ? "Buyer"
-                          : order.sellerId === session.user.id
-                          ? "Seller"
-                          : "Viewer"}
+                        {(() => {
+                          const userId = (session.user as { id?: string })?.id;
+                          if (!userId) return "Viewer";
+                          if (order.buyerId === userId && order.sellerId === userId) return "Buyer & Seller";
+                          if (order.buyerId === userId) return "Buyer";
+                          if (order.sellerId === userId) return "Seller";
+                          return "Viewer";
+                        })()}
                       </div>
                     ) : null}
                   </div>
