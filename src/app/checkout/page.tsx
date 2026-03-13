@@ -18,6 +18,7 @@ interface Gig {
   id: string;
   slug: string;
   title: string;
+  price: number;
   user: { id: string; name: string | null; email: string | null };
   packages: Package[];
 }
