@@ -186,7 +186,9 @@ export async function POST(req: Request) {
       );
     }
 
-    const price = packages.length ? Math.min(...packages.map((p) => p.price)) : singlePrice;
+    const price = packages.length
+      ? Math.min(...packages.map((p: { price: number }) => p.price))
+      : singlePrice;
 
     if (price < 1) {
       return NextResponse.json(
