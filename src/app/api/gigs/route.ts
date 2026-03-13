@@ -105,8 +105,9 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
+    const userId = (session?.user as { id?: string })?.id;
 
-    if (!session?.user?.id) {
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized." }, { status: 401 });
     }
 
@@ -199,7 +200,7 @@ export async function POST(req: Request) {
         gallery,
         tags,
         faqs: faqs.length ? faqs : null,
-        userId: (session.user as { id?: string }).id!,
+        userId,
         packages: packages.length
           ? {
               create: packages.map((p) => ({
