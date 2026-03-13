@@ -132,7 +132,7 @@ export async function POST(req: Request) {
               answer: item?.answer ? String(item.answer).trim() : "",
             };
           })
-          .filter((f) => f.question && f.answer)
+          .filter((f: { question: string; answer: string }) => f.question && f.answer)
       : [];
 
     const packagesInput = Array.isArray(body.packages) ? body.packages : [];
