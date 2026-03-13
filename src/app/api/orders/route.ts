@@ -6,7 +6,8 @@ import { authOptions } from "../auth/[...nextauth]/route";
 export async function GET(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = (session?.user as { id?: string })?.id;
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -15,10 +16,10 @@ export async function GET(req: Request) {
 
     const where =
       role === "buyer"
-        ? { buyerId: session.user.id }
+        ? { buyerId: userId }
         : role === "seller"
-        ? { sellerId: session.user.id }
-        : { OR: [{ buyerId: session.user.id }, { sellerId: session.user.id }] };
+        ? { sellerId: userId }
+        : { OR: [{ buyerId: userId }, { sellerId: userId }] };
 
     const orders = await prisma.order.findMany({
       where,
@@ -46,7 +47,8 @@ export async function GET(req: Request) {
 export async function POST(req: Request) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = (session?.user as { id?: string })?.id;
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -85,7 +87,7 @@ export async function POST(req: Request) {
         notes,
         gigId: gig.id,
         packageId: selectedPackage ? selectedPackage.id : null,
-        buyerId: session.user.id,
+        buyerId: userId,
         sellerId: gig.user.id,
         paidAt: null,
       },
