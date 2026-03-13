@@ -19,6 +19,7 @@ export default async function OrderDetail({
 }) {
   const { id } = await params;
   const session = await getServerSession(authOptions);
+  const userId = (session?.user as { id?: string })?.id;
   const order = await prisma.order.findUnique({
     where: { id },
     include: {
@@ -31,7 +32,7 @@ export default async function OrderDetail({
 
   if (!order) return notFound();
 
-  if (session?.user?.id && order.buyerId !== session.user.id && order.sellerId !== session.user.id) {
+  if (userId && order.buyerId !== userId && order.sellerId !== userId) {
     return notFound();
   }
 
@@ -92,8 +93,8 @@ export default async function OrderDetail({
         <OrderClient
           orderId={order.id}
           initialStatus={order.status}
-          isBuyer={!!session?.user?.id && session.user.id === order.buyerId}
-          isSeller={!!session?.user?.id && session.user.id === order.sellerId}
+          isBuyer={!!userId && userId === order.buyerId}
+          isSeller={!!userId && userId === order.sellerId}
           isPaid={!!order.paidAt}
           existingReview={existingReview}
         />
