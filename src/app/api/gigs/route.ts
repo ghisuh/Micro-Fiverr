@@ -154,7 +154,13 @@ export async function POST(req: Request) {
         };
       })
       .filter(
-        (p) =>
+        (p: {
+          name: string;
+          description: string;
+          price: number;
+          deliveryDays: number;
+          revisions: number | null;
+        }) =>
           p.name &&
           p.description &&
           Number.isFinite(p.price) &&
