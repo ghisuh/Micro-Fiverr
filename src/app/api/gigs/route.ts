@@ -68,12 +68,14 @@ export async function GET(req: Request) {
       };
     }
 
-    const orderBy =
-      sort === "price_asc"
-        ? { price: "asc" }
-        : sort === "price_desc"
-        ? { price: "desc" }
-        : { createdAt: "desc" };
+    let orderBy: Prisma.GigOrderByWithRelationInput;
+    if (sort === "price_asc") {
+      orderBy = { price: "asc" };
+    } else if (sort === "price_desc") {
+      orderBy = { price: "desc" };
+    } else {
+      orderBy = { createdAt: "desc" };
+    }
 
     const [gigs, total] = await Promise.all([
       prisma.gig.findMany({
