@@ -15,6 +15,21 @@ A full-stack Fiverr-style marketplace built with Next.js App Router, TypeScript,
   - Seller: `demo-seller@microfiverr.com` / `password123`  
   - Buyer: `demo-buyer@microfiverr.com` / `password123`
 
+## Screenshots / GIFs
+Add your captures to `public/demo/` (examples below). Suggested filenames:
+- `home.png` – Home hero
+- `gigs.png` – Gigs list with filters
+- `gig-detail.png` – Gig detail with packages
+- `checkout.png` – Checkout summary
+- `order-thread.png` – Order detail with messages/status
+- `signup.png` / `login.png`
+
+Then reference them in markdown, e.g.:
+```
+![Home](public/demo/home.png)
+![Gigs](public/demo/gigs.png)
+```
+
 ## Quick start
 1. Install deps
    ```bash
@@ -37,6 +52,13 @@ A full-stack Fiverr-style marketplace built with Next.js App Router, TypeScript,
    ```bash
    npm run dev
    ```
+
+## Loom walkthrough outline (90s)
+1) 0:00–0:15 – What it is (Micro-Fiverr clone) + stack (Next.js App Router, TS, Prisma/Postgres, NextAuth, Tailwind).  
+2) 0:15–0:35 – Demo login (use demo buyer), browse gigs, filters.  
+3) 0:35–1:00 – Gig detail → checkout → create order → “Pay now” → show status transitions.  
+4) 1:00–1:20 – Order messages + review after completion.  
+5) 1:20–1:30 – Mention mocked payments, URL uploads, and next improvements (Stripe, uploads, email verify).
 
 ## Usage tips
 - Create an account via /signup, then log in.
