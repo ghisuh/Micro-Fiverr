@@ -19,7 +19,8 @@ export async function PATCH(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) {
+    const userId = (session?.user as { id?: string })?.id;
+    if (!userId) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
     }
 
@@ -37,7 +38,6 @@ export async function PATCH(
 
     if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
 
-    const userId = session.user.id;
     const { from, to, role } = allowedTransitions[action];
 
     const isBuyer = order.buyerId === userId;

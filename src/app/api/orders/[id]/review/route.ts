@@ -9,7 +9,8 @@ export async function POST(
 ) {
   try {
     const session = await getServerSession(authOptions);
-    if (!session?.user?.id) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    const userId = (session?.user as { id?: string })?.id;
+    if (!userId) return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const { id } = await context.params;
     const body = await req.json();
@@ -26,12 +27,12 @@ export async function POST(
     });
 
     if (!order) return NextResponse.json({ error: "Order not found" }, { status: 404 });
-    if (order.buyerId !== session.user.id) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (order.buyerId !== userId) return NextResponse.json({ error: "Forbidden" }, { status: 403 });
     if (order.status !== "COMPLETED") {
       return NextResponse.json({ error: "Order must be completed to review" }, { status: 400 });
     }
 
-    const existing = await prisma.review.findFirst({ where: { orderId: order.id, userId: session.user.id } });
+    const existing = await prisma.review.findFirst({ where: { orderId: order.id, userId } });
     if (existing) {
       return NextResponse.json({ error: "Review already submitted" }, { status: 400 });
     }
@@ -41,7 +42,7 @@ export async function POST(
         rating: Math.round(rating),
         comment,
         gigId: order.gigId,
-        userId: session.user.id,
+        userId,
         orderId: order.id,
       },
     });
