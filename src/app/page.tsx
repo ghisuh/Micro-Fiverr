@@ -1,88 +1,64 @@
 import Link from "next/link";
 
+const categories = [
+  ["✦", "Design", "Brand, product & web"],
+  ["⌘", "Development", "Websites & software"],
+  ["◉", "Marketing", "Growth & strategy"],
+  ["Aa", "Writing", "Words that move people"],
+];
+
 export default function HomePage() {
   return (
-    <main className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <div className="mx-auto max-w-5xl px-4 py-16 space-y-14">
-        <section className="grid gap-10 lg:grid-cols-2 lg:items-center">
-          <div className="space-y-6">
-            <div className="inline-flex items-center rounded-full bg-slate-900 text-white px-4 py-1 text-sm font-medium shadow-sm">
-              Micro-Fiverr
-            </div>
-            <h1 className="text-4xl sm:text-5xl font-semibold text-slate-900 leading-tight">
-              A tiny marketplace for fast, quality work.
-            </h1>
-            <p className="text-lg text-slate-600 max-w-xl">
-              Post gigs, hire talent, and get projects shipped quickly. Built with Next.js,
-              Prisma, and NextAuth for a smooth, secure experience.
-            </p>
-            <div className="flex flex-wrap gap-3">
-              <Link
-                href="/gigs"
-                className="rounded-md bg-slate-900 px-5 py-2.5 text-white font-medium hover:bg-slate-800 transition shadow-sm"
-              >
-                Browse Gigs
-              </Link>
-              <Link
-                href="/signup"
-                className="rounded-md border border-slate-300 px-5 py-2.5 text-slate-900 font-medium hover:border-slate-400 hover:bg-slate-50 transition"
-              >
-                Get Started
-              </Link>
-              <Link
-                href="/login"
-                className="rounded-md border border-transparent px-5 py-2.5 text-slate-700 font-medium hover:text-slate-900 transition"
-              >
-                Log In
-              </Link>
-            </div>
+    <main className="home-shell">
+      <section className="hero wrap">
+        <div className="hero-copy">
+          <div className="eyebrow"><span /> Independent talent, thoughtfully matched</div>
+          <h1>Big ideas.<br /><em>Beautifully done.</em></h1>
+          <p>Find exceptional people for the work that matters—without the noise, the endless scrolling, or the guesswork.</p>
+          <div className="hero-actions">
+            <Link href="/gigs" className="button button-dark button-large">Explore services <span>↗</span></Link>
+            <Link href="/signup" className="text-link">Start selling <span>→</span></Link>
           </div>
-          <div className="relative">
-            <div className="rounded-2xl border border-slate-200 bg-white shadow-lg p-6 space-y-4">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-sm text-slate-500">Featured Gig</p>
-                  <h3 className="text-xl font-semibold text-slate-900">Design a landing page</h3>
-                </div>
-                <span className="rounded-full bg-emerald-50 text-emerald-700 px-3 py-1 text-sm font-medium">
-                  $250
-                </span>
-              </div>
-              <p className="text-slate-600">
-                Clean, modern landing page with responsive layouts and fast turnaround. Includes Figma source and basic animations.
-              </p>
-              <div className="flex items-center gap-3">
-                <div className="h-10 w-10 rounded-full bg-slate-900 text-white flex items-center justify-center font-medium">
-                  JD
-                </div>
-                <div>
-                  <p className="font-medium text-slate-900">Jordan Diaz</p>
-                  <p className="text-sm text-slate-600">Top Rated Seller</p>
-                </div>
-              </div>
-              <div className="grid grid-cols-3 gap-2 text-center text-sm text-slate-600">
-                <div className="rounded-lg bg-slate-50 py-2">2 day delivery</div>
-                <div className="rounded-lg bg-slate-50 py-2">3 revisions</div>
-                <div className="rounded-lg bg-slate-50 py-2">Figma + code</div>
-              </div>
-            </div>
+          <div className="trust-row">
+            <div className="avatar-stack" aria-hidden="true"><i>AM</i><i>JL</i><i>SK</i></div>
+            <p><strong>4.9 average rating</strong><br />from 2,000+ happy projects</p>
           </div>
-        </section>
+        </div>
 
-        <section className="grid gap-6 sm:grid-cols-3">
-          {["Post gigs", "Hire talent", "Move fast"].map((item) => (
-            <div
-              key={item}
-              className="rounded-xl border border-slate-200 bg-white shadow-sm p-5 space-y-2"
-            >
-              <h3 className="text-lg font-semibold text-slate-900">{item}</h3>
-              <p className="text-sm text-slate-600">
-                Micro-sized workflow for shipping projects without the bloat of big marketplaces.
-              </p>
+        <div className="hero-visual" aria-label="Featured service">
+          <div className="orb orb-one" /><div className="orb orb-two" />
+          <article className="featured-card">
+            <div className="card-art">
+              <span className="available-pill">● Available this week</span>
+              <div className="art-window"><span /><span /><span /></div>
             </div>
-          ))}
-        </section>
-      </div>
+            <div className="featured-body">
+              <div><p className="card-kicker">FEATURED · WEB DESIGN</p><h2>I&apos;ll craft a website people remember.</h2></div>
+              <div className="seller-row"><div className="seller-avatar">M</div><div><strong>Maya Chen</strong><span>Top independent · 5.0 ★</span></div><b>from $320</b></div>
+            </div>
+          </article>
+          <div className="floating-note note-one"><b>48h</b><span>avg. response</span></div>
+          <div className="floating-note note-two"><b>✓</b><span>Project protected</span></div>
+        </div>
+      </section>
+
+      <section className="category-section wrap">
+        <div className="section-heading"><div><span>WHAT DO YOU NEED?</span><h2>Start with a direction.</h2></div><Link href="/gigs">View all services →</Link></div>
+        <div className="category-grid">
+          {categories.map(([icon, title, copy]) => <Link href={`/gigs?tag=${title.toLowerCase()}`} className="category-card" key={title}><span className="category-icon">{icon}</span><div><h3>{title}</h3><p>{copy}</p></div><b>↗</b></Link>)}
+        </div>
+      </section>
+
+      <section className="promise-section">
+        <div className="wrap promise-grid">
+          <div><span className="eyebrow light"><span /> The micro promise</span><h2>Less marketplace.<br />More momentum.</h2></div>
+          <div className="promise-list">
+            <article><b>01</b><div><h3>Quality, made visible.</h3><p>Clear portfolios, real reviews, and straightforward packages. Know exactly who you&apos;re hiring.</p></div></article>
+            <article><b>02</b><div><h3>Protected from hello to done.</h3><p>Your payment stays secure until the work is delivered and you&apos;re ready to approve it.</p></div></article>
+            <article><b>03</b><div><h3>Built for getting things done.</h3><p>Simple messages, clear milestones, and no platform clutter between you and great work.</p></div></article>
+          </div>
+        </div>
+      </section>
     </main>
   );
 }
