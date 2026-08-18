@@ -12,7 +12,7 @@ export default function HomePage() {
     <main className="home-shell">
       <section className="hero wrap">
         <div className="hero-copy">
-          <div className="eyebrow"><span /> Independent talent, thoughtfully matched</div>
+          <div className="eyebrow">Independent talent, thoughtfully matched</div>
           <h1>Big ideas.<br /><em>Beautifully done.</em></h1>
           <p>Find exceptional people for the work that matters—without the noise, the endless scrolling, or the guesswork.</p>
           <div className="hero-actions">
@@ -34,7 +34,7 @@ export default function HomePage() {
             </div>
             <div className="featured-body">
               <div><p className="card-kicker">FEATURED · WEB DESIGN</p><h2>I&apos;ll craft a website people remember.</h2></div>
-              <div className="seller-row"><div className="seller-avatar">M</div><div><strong>Maya Chen</strong><span>Top independent · 5.0 ★</span></div><b>from $320</b></div>
+              <div className="seller-row"><div className="seller-avatar">G</div><div><strong>Ghisuh Na</strong><span>Top independent · 5.0 ★</span></div><b>from $320</b></div>
             </div>
           </article>
           <div className="floating-note note-one"><b>48h</b><span>avg. response</span></div>
@@ -51,7 +51,7 @@ export default function HomePage() {
 
       <section className="promise-section">
         <div className="wrap promise-grid">
-          <div><span className="eyebrow light"><span /> The micro promise</span><h2>Less marketplace.<br />More momentum.</h2></div>
+          <div><span className="eyebrow light">The micro promise</span><h2>Less marketplace.<br />More momentum.</h2></div>
           <div className="promise-list">
             <article><b>01</b><div><h3>Quality, made visible.</h3><p>Clear portfolios, real reviews, and straightforward packages. Know exactly who you&apos;re hiring.</p></div></article>
             <article><b>02</b><div><h3>Protected from hello to done.</h3><p>Your payment stays secure until the work is delivered and you&apos;re ready to approve it.</p></div></article>
